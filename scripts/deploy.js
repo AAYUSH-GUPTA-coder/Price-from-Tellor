@@ -1,33 +1,34 @@
-// We require the Hardhat Runtime Environment explicitly here. This is optional
-// but useful for running the script in a standalone fashion through `node <script>`.
-//
-// You can also run a script with `npx hardhat run <script>`. If you do that, Hardhat
-// will compile your contracts, add the Hardhat Runtime Environment's members to the
-// global scope, and execute the script.
+// calibration oracle address : 0xb2CB696fE5244fB9004877e58dcB680cB86Ba444
+// calibration token address : 0x15e6Cc0D69A162151Cadfba035aa10b82b12b970
+
 const hre = require("hardhat");
+const { abi, bytecode } = require("usingtellor/artifacts/contracts/TellorPlayground.sol/TellorPlayground.json")
 
 async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const unlockTime = currentTimestampInSeconds + 60;
 
-  const lockedAmount = hre.ethers.parseEther("0.001");
+  // first deploy oracle 
+  // let TellorOracle = await hre.ethers.getContractFactory(abi, bytecode);
+  // let tellorOracle = await TellorOracle.deploy();
+  // await tellorOracle.deployed();
 
-  const lock = await hre.ethers.deployContract("Lock", [unlockTime], {
-    value: lockedAmount,
-  });
+  // calibration oracle address
+  const tellorOracleAddress = "0x15e6Cc0D69A162151Cadfba035aa10b82b12b970";
 
-  await lock.waitForDeployment();
+  // then deploy Price.sol smart contract
+  let Price = await hre.ethers.getContractFactory("Price");
+  // localnet
+  // let price = await Price.deploy(tellorOracle.address);
+  // testnet
+  let price = await Price.deploy(tellorOracleAddress);
+  await price.deployed();
 
-  console.log(
-    `Lock with ${ethers.formatEther(
-      lockedAmount
-    )}ETH and unlock timestamp ${unlockTime} deployed to ${lock.target}`
-  );
+  console.log("Price deployed to:", price.address);
 }
 
-// We recommend this pattern to be able to use async/await everywhere
-// and properly handle errors.
-main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
-});
+
+main()
+  .then(() => process.exit(0))
+  .catch(error => {
+    console.error(error);
+    process.exit(1);
+  });
