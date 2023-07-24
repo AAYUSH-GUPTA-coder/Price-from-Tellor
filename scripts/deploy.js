@@ -12,14 +12,14 @@ async function main() {
   // await tellorOracle.deployed();
 
   // calibration oracle address
-  const tellorOracleAddress = "0x15e6Cc0D69A162151Cadfba035aa10b82b12b970";
+  const tellorOracleAddress = "0xb2CB696fE5244fB9004877e58dcB680cB86Ba444";
 
   // then deploy Price.sol smart contract
   let Price = await hre.ethers.getContractFactory("Price");
   // localnet
   // let price = await Price.deploy(tellorOracle.address);
   // testnet
-  let price = await Price.deploy(tellorOracleAddress);
+  let price = await Price.deploy("0xb2CB696fE5244fB9004877e58dcB680cB86Ba444");
   await price.deployed();
 
   console.log("Price deployed to:", price.address);
