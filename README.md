@@ -1,13 +1,7 @@
-# Sample Hardhat Project
+# Price-from-Tellor
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+It is a dapp that fetches the real-time price of FIL in terms of USD using the Tellor oracle. The smart contract is deployed on the calibration test network.
 
-Try running some of the following tasks:
+### Contract Address : 0x7d1769c556657651eF1a6D9d4c43810b8348c9D0
 
-```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.js
-```
+### [Calibration block explorer](https://calibration.filfox.info/en/address/t410fpulwtrkwmv3fd3y2nwouyq4bbobursoqzil5qcy)
